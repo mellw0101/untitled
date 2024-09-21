@@ -1,0 +1,7 @@
+/home/mellw/Projects/untitled/build/CMakeFiles/SXL.dir
+/home/mellw/Projects/untitled/build/CMakeFiles/edit_cache.dir
+/home/mellw/Projects/untitled/build/CMakeFiles/rebuild_cache.dir
+/home/mellw/Projects/untitled/build/CMakeFiles/list_install_components.dir
+/home/mellw/Projects/untitled/build/CMakeFiles/install.dir
+/home/mellw/Projects/untitled/build/CMakeFiles/install/local.dir
+/home/mellw/Projects/untitled/build/CMakeFiles/install/strip.dir

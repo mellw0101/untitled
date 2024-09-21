@@ -1,0 +1,2 @@
+/usr/local/include/SXL/SXL.h
+/usr/local/lib/libSXL.a

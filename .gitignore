@@ -1,0 +1,8 @@
+/.cache
+/.clang-tidy
+/.clangd
+/.idea
+/.vscode
+/cmake-build-debug
+/compile_commands.json
+/module-cache

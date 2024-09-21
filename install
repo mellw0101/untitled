@@ -1,0 +1,14 @@
+#!/bin/bash
+./build.sh
+cd build
+sudo cmake --install .
+
+# struct window_t
+#     {
+#         SDL_Window          *win   = nullptr;
+#         SDL_Renderer        *ren   = nullptr;
+#         const char          *title = nullptr;
+#         float                w     = 800;
+#         float                h     = 640;
+#         MVector<element_t *> elements;
+#     };

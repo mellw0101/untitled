@@ -1,0 +1,14 @@
+# ninja log v6
+3	1663	1726867076644650436	CMakeFiles/SXL.dir/src/cpp/SXL.cpp.o	4c28dd6aeafe4afe
+2033	2053	1726949971151824657	libSXL.a	542498c81adf0cf9
+4	1861	1726949969121824583	CMakeFiles/SXL.dir/src/cpp/event_handler.cpp.o	37a5181b3609dd12
+4	1862	1726949969121824583	CMakeFiles/SXL.dir/src/cpp/utils.cpp.o	bbe672dd6d44eff7
+4	2033	1726949969121824583	CMakeFiles/SXL.dir/src/cpp/app.cpp.o	ecab6fdd6d7f3739
+4	1982	1726949969121824583	CMakeFiles/SXL.dir/src/cpp/element.cpp.o	3d5ced145aaf2da8
+4	1874	1726949969121824583	CMakeFiles/SXL.dir/src/cpp/window.cpp.o	8947cd48e196deb9
+3	1847	1726949979605158278	CMakeFiles/SXL.dir/src/cpp/utils.cpp.o	89d3160fec87298a
+3	1870	1726949979605158278	CMakeFiles/SXL.dir/src/cpp/window.cpp.o	7115694427e32d69
+4	1880	1726949979605158278	CMakeFiles/SXL.dir/src/cpp/event_handler.cpp.o	87acffefac14644f
+3	2039	1726949979605158278	CMakeFiles/SXL.dir/src/cpp/element.cpp.o	bb6913e7259f5d94
+3	2080	1726949979605158278	CMakeFiles/SXL.dir/src/cpp/app.cpp.o	fa74b8c719da7caa
+2080	2100	1726949981681825020	libSXL.a	542498c81adf0cf9
