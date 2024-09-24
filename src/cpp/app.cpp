@@ -200,7 +200,7 @@ app::run(void) noexcept
         {
             _main_loop();
         }
-        EVENT_HANDLER->handle_event();
+        // EVENT_HANDLER->handle_event();
         SDL_RenderPresent(root->ren);
         _frame_end();
     }
