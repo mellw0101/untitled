@@ -33,19 +33,19 @@ app::app_t(void) noexcept : mem_pool(100 * MB)
         root->h = (float)ev.window.data2;
         for (const auto &elem : root->elements)
         {
-            if (elem->flags.is_set(element::ALIGN_X))
+            if (elem->flags.is_set<element::ALIGN_X>())
             {
                 elem->rect.x = (root->w + elem->align_rect.x);
             }
-            if (elem->flags.is_set(element::ALIGN_Y))
+            if (elem->flags.is_set<element::ALIGN_Y>())
             {
                 elem->rect.y = (root->h + elem->align_rect.y);
             }
-            if (elem->flags.is_set(element::ALIGN_WIDTH))
+            if (elem->flags.is_set<element::ALIGN_WIDTH>())
             {
                 elem->rect.w = (root->w - elem->rect.x);
             }
-            if (elem->flags.is_set(element::ALIGN_HEIGHT))
+            if (elem->flags.is_set<element::ALIGN_HEIGHT>())
             {
                 elem->rect.h = (root->h - elem->rect.y);
             }
@@ -210,7 +210,7 @@ app::run(void) noexcept
 
 /* Set the main logic loop for the app. */
 void
-app::set_main_loop(const std::function<void()> &loop) noexcept
+app::set_main_loop(const func<void(void)> &loop) noexcept
 {
     _main_loop = loop;
 }
@@ -219,7 +219,7 @@ app::set_main_loop(const std::function<void()> &loop) noexcept
 void
 app::quit(void) noexcept
 {
-    _flags.unset(APP_RUNNING);
+    _flags.unset<APP_RUNNING>();
 }
 
 /* Retrieve a font file at 'size', do NOT free the font for any reason the alloced
@@ -299,20 +299,6 @@ app::make_destroy_text_texture(SDL_Texture *old_texture, TTF_Font *font, const c
     return make_text_texture(font, text, fg, bg);
 }
 
-/**
- * @brief Renders a given SDL_Texture at specified coordinates.
- *
- * This function renders the provided SDL_Texture at the specified (x, y)
- * coordinates on the screen. If the texture is nullptr or matches the
- * blank_texture exception, the function logs an error or returns without
- * rendering.
- *
- * @param x The x-coordinate where the texture should be rendered.
- * @param y The y-coordinate where the texture should be rendered.
- * @param texture A pointer to the SDL_Texture to be rendered.
- *
- * @note This function does not throw exceptions.
- */
 void
 app::render_text(float x, float y, SDL_Texture *texture) noexcept
 {

@@ -19,20 +19,7 @@ element_text::query_text_texture(float x, float y, SDL_Texture *t) noexcept
 /*-<< sdl_element >>-*/
 void
 element::init(void) noexcept
-{
-    EVENT_HANDLER->event_action(SDL_EVENT_MOUSE_MOTION, [this](SDL_Event ev) {
-        SDL_MouseMotionEvent e = ev.motion;
-        if (((e.x >= rect.x && e.x <= rect.x + rect.w) &&
-             (e.y >= rect.y && e.y <= rect.y + rect.h)))
-        {
-            state.set<MOUSE_INSIDE>();
-        }
-        else if (state.is_set<MOUSE_INSIDE>())
-        {
-            state.unset<MOUSE_INSIDE>();
-        }
-    });
-}
+{}
 
 void
 element::draw_borders(void) noexcept
@@ -60,17 +47,9 @@ element::draw_borders(void) noexcept
 void
 element::draw(void) noexcept
 {
-    if (state.is_set<HIGHLIGHT_ON_HOVER>() && state.is_set<MOUSE_INSIDE>())
-    {
-        SDL_SetRenderDrawColor(*renptr, highlight_color.r,
-                                        highlight_color.g,
-                                        highlight_color.b,
-                                        highlight_color.a);
-    }
-    else
-    {
-        SDL_SetRenderDrawColor(*renptr, color.r, color.g, color.b, color.a);
-    }
+    (state.is_set<HIGHLIGHT_ON_HOVER>() && state.is_set<MOUSE_INSIDE>())
+        ? set_ren_color(*renptr, &highlight_color)
+        : set_ren_color(*renptr, &color);
     SDL_RenderFillRect(*renptr, &rect);
     draw_borders();
     if (!text_data)
@@ -115,7 +94,7 @@ element::add_text_data(float x, float y, SDL_Texture *texture) noexcept
 void
 element::animate(float end_x, float end_y, float end_w, float end_h, int duration_ms) noexcept
 {
-    if (!flags.is_set(IN_ANIMATION))
+    if (!flags.is_set<IN_ANIMATION>())
     {
         float steps  = (duration_ms / FRAME_DELAY(APP->root->framerate));
         float step_x = (end_x - rect.x) / steps;
@@ -146,9 +125,21 @@ element::set_highlight_on_hover(SDL_Color color) noexcept
 {
     highlight_color = color;
     state.set<HIGHLIGHT_ON_HOVER>();
+    EVENT_HANDLER->event_action(SDL_EVENT_MOUSE_MOTION, [&](SDL_Event ev) {
+        SDL_MouseMotionEvent e = ev.motion;
+        if (((e.x >= rect.x && e.x <= rect.x + rect.w) &&
+             (e.y >= rect.y && e.y <= rect.y + rect.h)))
+        {
+            state.set<MOUSE_INSIDE>();
+        }
+        else /*  if (state.is_set<MOUSE_INSIDE>()) */
+        {
+            state.unset<MOUSE_INSIDE>();
+        }
+    });
 }
 
-/* Constructor. */
+/* Constructors. */
 element::element_t(SDL_Color c, SDL_FRect r) noexcept
 {
     color       = c;
@@ -159,14 +150,8 @@ element::element_t(SDL_Color c, SDL_FRect r) noexcept
 }
 
 element::element_t(void) noexcept
-: rect{0, 0, 0, 0},
-  align_rect{0, 0, 0, 0},
-  color{0, 0, 0, 0},
-  renptr(nullptr),
-  text_data(nullptr),
-  border_size(0),
-  border_color{0, 0, 0, 0},
-  highlight_color{0, 0, 0, 0}
+    : rect {0, 0, 0, 0}, align_rect {0, 0, 0, 0}, color {0, 0, 0, 0}, renptr(nullptr),
+      text_data(nullptr), border_size(0), border_color {0, 0, 0, 0}, highlight_color {0, 0, 0, 0}
 {}
 
 /*-<< sdl_button_element >>-*/

@@ -33,11 +33,15 @@ using std::milli;
 using std::chrono::duration;
 using std::chrono::high_resolution_clock;
 using std::chrono::time_point;
-#define __this_thread          std::this_thread
+#define __this_thread std::this_thread
+template <typename T>
+using func = std::function<T>;
 
-#define WHITE                  255, 255, 255, 255
-#define BLACK                  0, 0, 0, 255
-#define RED                    255, 0, 0, 255
+#define NOPOS                  {0, 0, 0, 0}
+#define NOCOLOR                {0, 0, 0, 0}
+#define WHITE                  {255, 255, 255, 255}
+#define BLACK                  {0, 0, 0, 255}
+#define RED                    {255, 0, 0, 255}
 
 #define TOTAL_EVENTS           107
 #define FRAME_DELAY(framerate) ((float)1000 / framerate)
@@ -383,32 +387,11 @@ __SXL_SUB_NAMESPACE(utils, inline)
         }
 
         /* clang-format off */
-        double       screen_dpi(int sc_pix_w, int sc_pix_h, double sc_inch_w, double sc_inch_h);
         SDL_Texture *create_sdl_texture_from_bitfield(SDL_Renderer *ren, MVector<MVector<int>> data);
-        void         convert_sdl_rect_to_floats(SDL_Rect *rect, float *floats);
-        void         sdl_simd_update_rect(SDL_FRect *frect, SDL_FRect *end_frect, float *step_vals);
-
-        template <float Ms, float Fps>
-        __inline__ constexpr float __warn_unused __no_debug __no_throw
-        calc_total_steps(void) noexcept
-        {
-            return (Ms / (1000 / Fps));
-        }
-
-        template <float Steps, float Start, float End>
-        __inline__ constexpr float __warn_unused __no_debug __no_throw
-        calc_one_step(void) noexcept
-        {
-            return (End - Start) / Steps;
-        }
-        
-        template <float Start, float End, float Ms, float FrameTime>
-        constexpr void
-        calculate_anim_steps(float *steps, float *step_x, float *step_y, float *step_w, float *step_h) noexcept
-        {
-            constexpr float _steps = (Ms / FrameTime);
-            constexpr float _x = (End - Start) / _steps;
-        }
+        double screen_dpi(int sc_pix_w, int sc_pix_h, double sc_inch_w, double sc_inch_h);
+        void   convert_sdl_rect_to_floats(SDL_Rect *rect, float *floats);
+        void   sdl_simd_update_rect(SDL_FRect *frect, SDL_FRect *end_frect, float *step_vals);
+        void   set_ren_color(SDL_Renderer *ren, SDL_Color *c) noexcept;
         /* clang-format on */
     }
     __SXL_SUB_NAMESPACE(structs, inline)
@@ -439,13 +422,13 @@ __SXL_SUB_NAMESPACE(utils, inline)
             HIGHLIGHT_ON_HOVER
         };
 
-        using event_callback_t = std::function<void(SDL_Event ev)>;
+        using event_callback_t = func<void(SDL_Event ev)>;
         using event_vector_t   = MVector<event_callback_t>;
     }
 }
 
-typedef utils::texture_exceptions_t     texture_exceptions;
-typedef utils::element_animation_data_t element_animation_data;
+typedef texture_exceptions_t     texture_exceptions;
+typedef element_animation_data_t element_animation_data;
 
 class event_handler_t
 {
@@ -485,8 +468,6 @@ struct element_text_t
     void query_text_texture(float x = -1, float y = -1, SDL_Texture *t = nullptr) noexcept;
 };
 
-#define FLAGS_SIZE 8
-#define STATE_SIZE 8
 struct element_t
 {
     enum state_flags
